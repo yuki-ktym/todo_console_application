@@ -35,13 +35,20 @@ function addTask() {
   });
 }
 
-// 一覧表示
+// 一覧表示（空の場合はテキスト表示）
 function showTasks() {
   console.log('--- タスク一覧 ---');
-  tasks.forEach((task) => {
-    console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
-  });
-  promptUser();
+  if (tasks.id == null) {
+    console.log('▲タスクはありません');
+    promptUser();
+
+  } else {
+    tasks.forEach((task) => {
+      console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
+    });
+    promptUser();
+
+  }
 }
 
 // 一覧条件表示
@@ -97,7 +104,7 @@ function deleteTask() {
   console.log('--- タスク削除 ---');
   rl.question('タスクIDを入力してください: ', (id) => {
     const index = tasks.findIndex((t) => t.id === parseInt(id));
-    if (index !== -1) {
+    if (index !== 0) {
       tasks.splice(index, 1);
       console.log('削除完了');
     } else {
@@ -110,7 +117,7 @@ function deleteTask() {
 // ユーザーからの入力を待ち、処理を実行する関数
 function promptUser() {
   console.log();
-  console.log('---【 タスク管理システム 】-----------------------------------------------------');
+  console.log('---【 タスク管理ツール 】-----------------------------------------------------');
   console.log('1. タスク追加');
   console.log('2. タスク一覧');
   console.log('3. タスク条件検索');
