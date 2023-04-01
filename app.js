@@ -15,11 +15,15 @@ let taskId = 1;
 
 // タスク追加
 function addTask() {
+  const priorityOption = ['低', '中', '高'];
   console.log('--- 新規タスク作成 ---');
   rl.question('タイトル: ', (title) => {
     rl.question('詳細: ', (detail) => {
       rl.question('締切日 (YYYY/MM/DD)※半角数字: ', (dueDate) => {
-        rl.question('優先度 (低, 中, 高): ', (priority) => {
+        const priorityQuestion = `優先度を選んでください:\n${priorityOption.map((option, index) => `${index + 1}. ${option}`).join('\n')}\n`;
+        rl.question(priorityQuestion, (answer) => {
+          // parseInt＝文字列を整数へ変換
+          const priority = priorityOption[parseInt(answer) - 1];
           tasks.push({
             id: taskId++,
             title: title,
@@ -38,7 +42,7 @@ function addTask() {
 // 一覧表示（空の場合はテキスト表示）
 function showTasks() {
   console.log('--- タスク一覧 ---');
-  if (tasks.id == null) {
+  if (tasks.length === 0) {
     console.log('▲タスクはありません');
     promptUser();
 
@@ -116,7 +120,7 @@ function deleteTask() {
 
 // ユーザーからの入力を待ち、処理を実行する関数
 function promptUser() {
-  console.log();
+  console.log('');
   console.log('---【 タスク管理ツール 】-----------------------------------------------------');
   console.log('1. タスク追加');
   console.log('2. タスク一覧');
