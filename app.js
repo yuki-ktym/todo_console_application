@@ -13,9 +13,11 @@ let tasks = [];
 // タスクのID
 let taskId = 1;
 
+// 優先度の定義
+const priorityOption = ['低', '中', '高'];
+
 // タスク追加
 function addTask() {
-  const priorityOption = ['低', '中', '高'];
   console.log('--- 新規タスク作成 ---');
   rl.question('タイトル: ', (title) => {
     rl.question('詳細: ', (detail) => {
@@ -45,20 +47,49 @@ function showTasks() {
   if (tasks.length === 0) {
     console.log('▲タスクはありません');
     promptUser();
-
   } else {
+    tasks.sort((a, b) => a.id - b.id);
     tasks.forEach((task) => {
       console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
     });
     promptUser();
-
   }
 }
 
 // 一覧条件表示
+// 締め切りが近い順の一覧、優先度が近い順の一覧
 function showJokenTasks() {
   console.log('--- タスク条件検索 ---');
-  promptUser();
+  if (tasks.length === 0) {
+    console.log('▲タスクはありません');
+    promptUser();
+
+  } else {
+    const jokenOption = ['締め切りが近い順で表示', '優先度が高い順で表示'];
+    const jokenQuestion = `ソート方法を選んでください:\n${jokenOption.map((option, index) => `${index + 1}. ${option}`).join('\n')}\n`;
+    rl.question(jokenQuestion, (answer) => {
+      const jokenNumber = parseInt(answer);
+      if (jokenNumber === 1) {
+        tasks.sort((a, b) => a.dueDate - b.dueDate);
+        tasks.forEach((task) => {
+          console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
+        });
+      } else if (jokenNumber === 2) {
+        tasks.sort((a, b) => {
+          const priorityA = priorityOption.indexOf(a.priority);
+          const priorityB = priorityOption.indexOf(b.priority);
+          return priorityB - priorityA;
+        });
+        tasks.forEach((task) => {
+          console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
+        });
+      } else {
+        console.log('無効な選択肢です');
+      }
+      promptUser();
+    });
+
+  };
 }
 
 // 詳細表示
@@ -85,7 +116,9 @@ function updateTask() {
       rl.question(`タイトル (${task.title}): `, (title) => {
         rl.question(`詳細 (${task.details}): `, (details) => {
           rl.question(`締切日 (${task.dueDate.toLocaleDateString()}): `, (dueDate) => {
-            rl.question(`優先度 (${task.priority}): `, (priority) => {
+            const priorityQuestion = `優先度を選んでください(${task.priority}):\n${priorityOption.map((option, index) => `${index + 1}. ${option}`).join('\n')}\n`;
+            rl.question(priorityQuestion, (answer) => {
+              const priority = priorityOption[parseInt(answer) - 1];
               task.title = title || task.title;
               task.details = details || task.details;
               task.dueDate = dueDate ? new Date(dueDate) : task.dueDate;
