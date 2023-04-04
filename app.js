@@ -161,13 +161,11 @@ function deleteTask() {
   console.log('--- タスク削除 ---');
   rl.question('タスクIDを入力してください: ', (id) => {
     const index = tasks.findIndex((t) => t.id === parseInt(id));
-    if (index !== 0) {
+    if (index !== -1) {
       tasks.splice(index, 1);
       console.log('削除完了');
-      callback(true);
     } else {
       console.log('タスクはありません');
-      callback(false);
     }
     promptUser();
   });
