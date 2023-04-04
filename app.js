@@ -213,3 +213,12 @@ function promptUser() {
 }
 
 promptUser();
+
+module.exports = {
+  addTask,
+  showTasks,
+  showJokenTasks,
+  showTaskDetails,
+  updateTask,
+  deleteTask
+};
