@@ -31,7 +31,7 @@ let tasks = [{
 }];
 
 // タスクID(last)
-let taskId = tasks.slice(-1)[0].id +1;
+let taskId = tasks.slice(-1)[0].id + 1;
 
 // 優先度の定義
 const priorityOption = ['低', '中', '高'];
@@ -164,14 +164,16 @@ function deleteTask() {
     if (index !== 0) {
       tasks.splice(index, 1);
       console.log('削除完了');
+      callback(true);
     } else {
       console.log('タスクはありません');
+      callback(false);
     }
     promptUser();
   });
 }
 
-// ユーザーからの入力を待ち、処理を実行する関数
+// 選択トップ
 function promptUser() {
   console.log('');
   console.log('---【 TODO管理アプリケーション 】-----------------------------------------------------');
@@ -220,5 +222,5 @@ module.exports = {
   showJokenTasks,
   showTaskDetails,
   updateTask,
-  deleteTask
+  deleteTask,
 };
