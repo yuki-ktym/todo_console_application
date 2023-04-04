@@ -7,11 +7,31 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// タスクのリスト
-let tasks = [];
+// 初期タスク
+let tasks = [{
+  id: 1,
+  title: "タスク1",
+  details: "タスク1の詳細",
+  dueDate: new Date("2023-04-05"),
+  priority: "低"
+},
+{
+  id: 2,
+  title: "タスク2",
+  details: "タスク2の詳細",
+  dueDate: new Date("2023-04-06"),
+  priority: "中"
+},
+{
+  id: 3,
+  title: "タスク3",
+  details: "タスク3の詳細",
+  dueDate: new Date("2023-04-07"),
+  priority: "高"
+}];
 
-// タスクのID
-let taskId = 1;
+// タスクID(last)
+let taskId = tasks.slice(-1)[0].id +1;
 
 // 優先度の定義
 const priorityOption = ['低', '中', '高'];
