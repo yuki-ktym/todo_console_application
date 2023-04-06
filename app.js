@@ -70,7 +70,7 @@ function showTasks() {
   } else {
     tasks.sort((a, b) => a.id - b.id);
     tasks.forEach((task) => {
-      console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}], [優先度:${task.priority}]`);
+      console.log(`[ID:${task.id}], [タイトル:${task.title}],[詳細:${task.details}],[締切日:${task.dueDate.toLocaleDateString()}],[優先度:${task.priority}]`);
     });
     promptUser();
   }
@@ -133,6 +133,7 @@ function updateTask() {
   rl.question('タスクIDを入力してください: ', (id) => {
     const task = tasks.find((t) => t.id === parseInt(id));
     if (task) {
+      console.log('※更新内容を入力してください(未入力でスキップされます)')
       rl.question(`タイトル (${task.title}): `, (title) => {
         rl.question(`詳細 (${task.details}): `, (details) => {
           rl.question(`締切日 (${task.dueDate.toLocaleDateString()}): `, (dueDate) => {
